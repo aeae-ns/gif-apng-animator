@@ -372,6 +372,58 @@
             display: none;
         }
 
+        .file-tips {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .tips-icon {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .tips-content {
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+        }
+
+        .tips-title {
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .tips-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tips-item {
+            font-size: 0.7rem;
+            color: #64748b;
+            position: relative;
+            padding-left: 8px;
+        }
+
+        .tips-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
         .file-info-item {
             display: flex;
             justify-content: space-between;
@@ -462,8 +514,99 @@
             transition: all 0.3s ease;
         }
 
-        .reset-size-btn:hover {
-            background: linear-gradient(135deg, #4b5563, #374151);
+        .help-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            border: 1px solid #94a3b8;
+            border-radius: 50%;
+            color: #64748b;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: help;
+            margin-left: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+            vertical-align: middle;
+            transform: translateY(-2px);
+        }
+
+        .help-icon:hover {
+            background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+            border-color: #64748b;
+            color: #475569;
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.98);
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px);
+            max-width: 320px;
+            text-align: left;
+            pointer-events: none;
+        }
+
+        .tooltip::after {
+            display: none;
+        }
+
+        .help-icon:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .control-label-with-help {
+            display: flex;
+            align-items: center;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .tooltip-item {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .tooltip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tooltip-bullet {
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .tooltip-label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .tooltip-desc {
+            color: #64748b;
         }
 
         @media (max-width: 1024px) {
@@ -484,6 +627,80 @@
                 flex-wrap: wrap;
             }
         }
+/* ─────────────────────────── */
+/* Previewセクション右上の「画面内に収める」トグル */
+.fit-toggle {
+    position: absolute;
+    top: 24px;       /* 見出し下からの余白 */
+    right: 24px;     /* 右端からの余白 */
+}
+.fit-toggle label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+}
+.fit-toggle input[type="checkbox"] {
+    accent-color: #475569;
+    width: 16px;
+    height: 16px;
+}
+.fit-toggle span {
+    user-select: none;
+}
+/* 既存の .fit-toggle 定義（そのまま） */
+.fit-toggle {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+/* ─────────────────────────── */
+/* スマホでは隠す */
+@media (max-width: 768px) {
+    .fit-toggle {
+        display: none !important;
+    }
+}
+
+/* ─────────────────────────── */
+/* 生成中オーバーレイ */
+.loading-overlay {
+  position: absolute;
+  inset: 0;                   /* top/right/bottom/left = 0 */
+  background: rgba(255, 255, 255, 0.8);
+  display: none;              /* 初期は非表示 */
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 200;               /* 他要素より前面 */
+}
+
+/* CSSスピナー */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #d1d5db;
+  border-top-color: #475569;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ローディングテキスト */
+.loading-text {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
     </style>
 </head>
 <body>
@@ -499,7 +716,17 @@
                     <span>✦</span>
                     Preview
                 </h2>
-                
+                        <!-- ★ トグルを右上に絶対配置 -->
+        <div class="fit-toggle">
+            <label>
+                <input
+                    type="checkbox"
+                    id="fitToScreen"
+                    class="preview-checkbox"
+                >
+                <span>プレビューを画面内に収める</span>
+            </label>
+        </div>
                 <div class="preview-container" id="previewContainer">
                     <div class="preview-placeholder">
                         <div class="upload-icon">+</div>
@@ -524,6 +751,7 @@
                     <div style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">
                         現在のサイズ: <span id="currentSizeDisplay">-</span>
                     </div>
+                  
                 </div>
 
                 <div class="file-info" id="fileInfo">
@@ -536,10 +764,32 @@
                         <span id="imageSize">-</span>
                     </div>
                     <div class="file-info-item">
-                        <span>推定ファイルサイズ:</span>
+                        <span>元画像ファイルサイズ:</span>
                         <span id="estimatedSize">-</span>
                     </div>
+                    <div class="file-info-item">
+                        <span>予測出力サイズ:</span>
+                        <span id="predictedOutputSize">-</span>
+                    </div>
+                    <div class="file-tips">
+                        <div class="tips-icon">💡</div>
+                        <div class="tips-content">
+                            <span class="tips-title">出力できない場合の対処法:</span>
+                            <div class="tips-list">
+                                <span class="tips-item">出力サイズを小さくする</span>
+                                <span class="tips-item">フレームレートを下げる(15FPS推奨)</span>
+                                <span class="tips-item">複雑なアニメーションを避ける</span>
+                                <span class="tips-item">色数制限を下げる(64色以下)</span>
+                                <span class="tips-item">画像サイズ調整で縮小する</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+<!-- ローディングオーバーレイ -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">⏳ 処理中です…</div>
+</div>
             </div>
 
             <div class="controls-section">
@@ -578,11 +828,11 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label">アニメーション速度: <span class="value-display" id="speedValue">3.0</span>秒/1周期</label>
+                        <label class="control-label">アニメーション速度: <span class="value-display" id="speedValue">0.5</span>秒/1周期</label>
                         <div class="control-slider-group">
                             <button class="slider-btn decrease" onclick="adjustSlider('animationSpeed', -0.1)">−</button>
                             <div class="range-input-wrapper">
-                                <input type="range" class="range-input" id="animationSpeed" min="0.5" max="10" step="0.1" value="3.0">
+                                <input type="range" class="range-input" id="animationSpeed" min="0.5" max="10" step="0.1" value="0.5">
                             </div>
                             <button class="slider-btn increase" onclick="adjustSlider('animationSpeed', 0.1)">+</button>
                         </div>
@@ -614,8 +864,8 @@
                     <div class="control-group">
                         <label class="control-label">イージング</label>
                         <select class="control-select" id="easingType">
+                            <option value="linear" selected>リニア (linear)</option>
                             <option value="ease-in-out">スムーズ (ease-in-out)</option>
-                            <option value="linear">リニア (linear)</option>
                             <option value="ease-in">イーズイン (ease-in)</option>
                             <option value="ease-out">イーズアウト (ease-out)</option>
                             <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">バウンス</option>
@@ -623,7 +873,7 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label">色数制限: <span class="value-display" id="colorValue">128</span>色（容量削減用）</label>
+                        <label class="control-label">色数制限: <span class="value-display" id="colorValue">128</span>色（GIF）</label>
                         <div class="control-slider-group">
                             <button class="slider-btn decrease" onclick="adjustSlider('colorCount', -8)">−</button>
                             <div class="range-input-wrapper">
@@ -737,6 +987,7 @@
         let originalHeight = 0;
         let aspectRatioLocked = true;
         let animationId = null;
+        let fitToScreen = false;
 
         // DOM要素の取得
         const previewContainer = document.getElementById('previewContainer');
@@ -766,6 +1017,7 @@
         const aspectRatioBtn = document.getElementById('aspectRatioBtn');
         const resetSizeBtn = document.getElementById('resetSizeBtn');
         const currentSizeDisplay = document.getElementById('currentSizeDisplay');
+        const fitToScreenCheckbox = document.getElementById('fitToScreen');
 
         // 値表示要素
         const speedValue = document.getElementById('speedValue');
@@ -794,12 +1046,14 @@
         outputHeight.addEventListener('input', handleHeightChange);
         aspectRatioBtn.addEventListener('click', toggleAspectRatio);
         resetSizeBtn.addEventListener('click', resetToOriginalSize);
+        fitToScreenCheckbox.addEventListener('change', handleFitToScreenChange);
 
         // コントロールイベント
-        animationType.addEventListener('change', updatePreview);
+        animationType.addEventListener('change', () => { updatePreview(); updatePredictedOutputSize(); });
         animationSpeed.addEventListener('input', () => {
             speedValue.textContent = animationSpeed.value;
             updatePreview();
+            updatePredictedOutputSize();
         });
         animationIntensity.addEventListener('input', () => {
             intensityValue.textContent = animationIntensity.value;
@@ -817,6 +1071,9 @@
             scaleValue.textContent = imageScale.value;
             updatePreviewScale();
         });
+        frameRate.addEventListener('change', updatePredictedOutputSize);
+        qualityLevel.addEventListener('change', updatePredictedOutputSize);
+        outputFormat.addEventListener('change', updatePredictedOutputSize);
 
         function handleDragOver(e) {
             e.preventDefault();
@@ -890,6 +1147,8 @@
             previewContainer.appendChild(animationCanvas);
             animationContext = animationCanvas.getContext('2d');
             
+            // 初期表示でフィット設定を適用
+            updatePreviewDisplay();
             updatePreview();
         }
 
@@ -898,6 +1157,9 @@
             sizeControls.style.display = 'block';
             uploadPrompt.style.display = 'none';
             generateBtn.disabled = false;
+            
+          
+            updatePredictedOutputSize();
         }
 
         function handleWidthChange() {
@@ -908,6 +1170,7 @@
             }
             updateCurrentSizeDisplay();
             updatePreview();
+            updatePredictedOutputSize();
         }
 
         function handleHeightChange() {
@@ -918,6 +1181,7 @@
             }
             updateCurrentSizeDisplay();
             updatePreview();
+            updatePredictedOutputSize();
         }
 
         function toggleAspectRatio() {
@@ -939,6 +1203,33 @@
                 outputHeight.value = originalHeight;
                 updateCurrentSizeDisplay();
                 updatePreview();
+            }
+        }
+
+        function handleFitToScreenChange() {
+            fitToScreen = fitToScreenCheckbox.checked;
+            updatePreviewDisplay();
+        }
+
+        function updatePreviewDisplay() {
+            if (!animationCanvas) return;
+            
+            if (fitToScreen) {
+                previewContainer.classList.add('fit-to-screen');
+                // キャンバスのスタイルを直接調整
+                animationCanvas.style.maxWidth = '100%';
+                animationCanvas.style.maxHeight = '400px';
+                animationCanvas.style.width = 'auto';
+                animationCanvas.style.height = 'auto';
+                animationCanvas.style.objectFit = 'contain';
+            } else {
+                previewContainer.classList.remove('fit-to-screen');
+                // 元のスタイルに戻す
+                animationCanvas.style.maxWidth = '100%';
+                animationCanvas.style.maxHeight = '100%';
+                animationCanvas.style.width = '';
+                animationCanvas.style.height = '';
+                animationCanvas.style.objectFit = '';
             }
         }
 
@@ -969,6 +1260,44 @@
             // inputイベントを手動で発火させる
             const event = new Event('input', { bubbles: true });
             slider.dispatchEvent(event);
+        }
+
+        // 予測出力サイズを計算・更新する関数
+        function updatePredictedOutputSize() {
+            if (!currentImage) {
+                document.getElementById('predictedOutputSize').textContent = '-';
+                return;
+            }
+            
+            const width = parseInt(outputWidth.value) || originalWidth;
+            const height = parseInt(outputHeight.value) || originalHeight;
+            const fps = parseInt(frameRate.value);
+            const duration = parseFloat(animationSpeed.value);
+            const frameCount = Math.max(10, Math.min(60, Math.round(fps * duration)));
+            const format = outputFormat.value;
+            
+            // おおよその予測計算
+            let predictedSizeMB;
+            
+            if (format === 'gif') {
+                // GIF: フレーム数 × 画像サイズ × 圧縮率
+                const pixelCount = width * height;
+                const compressionRatio = qualityLevel.value === 'high' ? 0.3 : qualityLevel.value === 'medium' ? 0.2 : 0.15;
+                predictedSizeMB = (pixelCount * frameCount * 3 * compressionRatio) / (1024 * 1024);
+            } else {
+                // APNG: より効率的な圧縮
+                const pixelCount = width * height;
+                const compressionRatio = 0.25;
+                predictedSizeMB = (pixelCount * frameCount * 4 * compressionRatio) / (1024 * 1024);
+            }
+            
+            // 表示を更新
+            const sizeText = predictedSizeMB < 1 ? 
+                `${Math.round(predictedSizeMB * 1000)}KB（5MB以下のみ出力可）` : 
+                `${predictedSizeMB.toFixed(1)}MB（5MB以下のみ出力可）`;
+                
+            const warningText = predictedSizeMB > 5 ? ' ⚠️' : '';
+            document.getElementById('predictedOutputSize').textContent = sizeText + warningText;
         }
 
         function handleSizeChange() {
@@ -1034,7 +1363,7 @@
             
             switch(type) {
                 case 'floating':
-                    const floatY = Math.sin(progress * Math.PI * 2) * 10 * intensity;
+                    const floatY = Math.sin(easedProgress * Math.PI * 2) * 10 * intensity;
                     ctx.translate(0, floatY);
                     break;
                     
@@ -1044,7 +1373,7 @@
                     break;
                     
                 case 'swaying':
-                    const swayAngle = Math.sin(progress * Math.PI * 2) * 0.05 * intensity;
+                    const swayAngle = Math.sin(easedProgress * Math.PI * 2) * 0.05 * intensity;
                     ctx.rotate(swayAngle);
                     break;
                     
@@ -1195,7 +1524,7 @@
             document.getElementById('imageSize').textContent = `${img.width} × ${img.height}px（元サイズ）`;
             
             const fileSizeMB = Math.round(file.size / 1024 / 1024 * 100) / 100;
-            document.getElementById('estimatedSize').textContent = `元画像: ${fileSizeMB}MB（5MB以下のみ出力可）`;
+            document.getElementById('estimatedSize').textContent = `${fileSizeMB}MB`;
             
             fileInfo.style.display = 'block';
         }
@@ -1242,10 +1571,13 @@
         }
 
         async function generateAnimation() {
-            if (!currentImage) {
-                alert('❌ 画像をアップロードしてください。');
-                return;
-            }
+   if (!currentImage) {
+       alert('❌ 画像をアップロードしてください。');
+       return;
+   }
+   // ★生成開始：オーバーレイをON
+   const overlay = document.getElementById('loadingOverlay');
+   overlay.style.display = 'flex';
 
             progressBar.style.display = 'block';
             generateBtn.disabled = true;
@@ -1270,6 +1602,8 @@
                     
                     const formatName = format === 'gif' ? 'GIF' : 'APNG';
                     alert(`🎉 ${formatName}生成が完了しました！\nダウンロードボタンからファイルを保存できます。`);
+           // ★生成完了：オーバーレイをOFF
+           overlay.style.display = 'none';
                 }, 500);
                 
             } catch (error) {
@@ -1277,6 +1611,8 @@
                 progressBar.style.display = 'none';
                 progressFill.style.width = '0%';
                 generateBtn.disabled = false;
+       // ★エラー時もオーバーレイOFF
+       overlay.style.display = 'none';
                 
                 let errorMessage = '❌ 生成中にエラーが発生しました。';
                 if (error.message.includes('5MB')) {
