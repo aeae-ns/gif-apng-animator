@@ -179,6 +179,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
         }
 
         .btn:hover {
@@ -241,9 +242,70 @@
             box-shadow: 0 0 0 3px rgba(73, 80, 87, 0.1);
         }
 
+        .control-slider-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .slider-btn {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 1px solid #d1d5db;
+            color: #6b7280;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .slider-btn:hover {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-color: #9ca3af;
+            color: #374151;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .slider-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+        }
+
+        .slider-btn.decrease {
+            color: #64748b;
+        }
+
+        .slider-btn.decrease:hover {
+            color: #475569;
+            border-color: #64748b;
+        }
+
+        .slider-btn.increase {
+            color: #64748b;
+        }
+
+        .slider-btn.increase:hover {
+            color: #475569;
+            border-color: #64748b;
+        }
+
+        .range-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
         .range-input {
             width: 100%;
-            margin: 12px 0;
             -webkit-appearance: none;
             appearance: none;
             height: 6px;
@@ -288,6 +350,7 @@
             border-radius: 4px;
             overflow: hidden;
             margin: 20px 0;
+            display: none;
         }
 
         .progress-fill {
@@ -306,6 +369,7 @@
             margin-top: 20px;
             font-size: 0.9rem;
             color: #475569;
+            display: none;
         }
 
         .file-info-item {
@@ -336,6 +400,7 @@
             border-radius: 16px;
             padding: 20px;
             margin: 20px 0;
+            display: none;
         }
 
         .size-controls h3 {
@@ -364,12 +429,6 @@
             color: #374151;
             font-size: 0.9rem;
             text-align: center;
-        }
-
-        .size-input:focus {
-            outline: none;
-            border-color: #495057;
-            background: rgba(255, 255, 255, 1);
         }
 
         .aspect-ratio-btn {
@@ -450,7 +509,7 @@
 
                 <input type="file" id="fileInput" class="file-input" accept="image/png">
 
-                <div class="size-controls" id="sizeControls" style="display: none;">
+                <div class="size-controls" id="sizeControls">
                     <h3>⚏ 出力サイズ調整</h3>
                     <div class="size-input-group">
                         <label>幅:</label>
@@ -467,7 +526,7 @@
                     </div>
                 </div>
 
-                <div class="file-info" id="fileInfo" style="display: none;">
+                <div class="file-info" id="fileInfo">
                     <div class="file-info-item">
                         <span>ファイル名:</span>
                         <span id="fileName">-</span>
@@ -520,17 +579,35 @@
 
                     <div class="control-group">
                         <label class="control-label">アニメーション速度: <span class="value-display" id="speedValue">3.0</span>秒/1周期</label>
-                        <input type="range" class="range-input" id="animationSpeed" min="0.5" max="10" step="0.1" value="3.0">
+                        <div class="control-slider-group">
+                            <button class="slider-btn decrease" onclick="adjustSlider('animationSpeed', -0.1)">−</button>
+                            <div class="range-input-wrapper">
+                                <input type="range" class="range-input" id="animationSpeed" min="0.5" max="10" step="0.1" value="3.0">
+                            </div>
+                            <button class="slider-btn increase" onclick="adjustSlider('animationSpeed', 0.1)">+</button>
+                        </div>
                     </div>
 
                     <div class="control-row">
                         <div class="control-group">
                             <label class="control-label">強度: <span class="value-display" id="intensityValue">50</span>%</label>
-                            <input type="range" class="range-input" id="animationIntensity" min="10" max="200" step="5" value="50">
+                            <div class="control-slider-group">
+                                <button class="slider-btn decrease" onclick="adjustSlider('animationIntensity', -5)">−</button>
+                                <div class="range-input-wrapper">
+                                    <input type="range" class="range-input" id="animationIntensity" min="10" max="200" step="5" value="50">
+                                </div>
+                                <button class="slider-btn increase" onclick="adjustSlider('animationIntensity', 5)">+</button>
+                            </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">遅延: <span class="value-display" id="delayValue">0</span>秒</label>
-                            <input type="range" class="range-input" id="animationDelay" min="0" max="5" step="0.1" value="0">
+                            <div class="control-slider-group">
+                                <button class="slider-btn decrease" onclick="adjustSlider('animationDelay', -0.1)">−</button>
+                                <div class="range-input-wrapper">
+                                    <input type="range" class="range-input" id="animationDelay" min="0" max="5" step="0.1" value="0">
+                                </div>
+                                <button class="slider-btn increase" onclick="adjustSlider('animationDelay', 0.1)">+</button>
+                            </div>
                         </div>
                     </div>
 
@@ -547,12 +624,24 @@
 
                     <div class="control-group">
                         <label class="control-label">色数制限: <span class="value-display" id="colorValue">128</span>色（容量削減用）</label>
-                        <input type="range" class="range-input" id="colorCount" min="8" max="256" step="8" value="128">
+                        <div class="control-slider-group">
+                            <button class="slider-btn decrease" onclick="adjustSlider('colorCount', -8)">−</button>
+                            <div class="range-input-wrapper">
+                                <input type="range" class="range-input" id="colorCount" min="8" max="256" step="8" value="128">
+                            </div>
+                            <button class="slider-btn increase" onclick="adjustSlider('colorCount', 8)">+</button>
+                        </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label">画像サイズ調整: <span class="value-display" id="scaleValue">100</span>%</label>
-                        <input type="range" class="range-input" id="imageScale" min="10" max="200" step="5" value="100">
+                        <div class="control-slider-group">
+                            <button class="slider-btn decrease" onclick="adjustSlider('imageScale', -5)">−</button>
+                            <div class="range-input-wrapper">
+                                <input type="range" class="range-input" id="imageScale" min="10" max="200" step="5" value="100">
+                            </div>
+                            <button class="slider-btn increase" onclick="adjustSlider('imageScale', 5)">+</button>
+                        </div>
                     </div>
 
                     <div class="control-row">
@@ -599,13 +688,13 @@
                         ⚡ アニメーション生成 ⚡
                     </button>
 
-                    <div class="progress-bar" id="progressBar" style="display: none;">
+                    <div class="progress-bar" id="progressBar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
 
-                    <button class="btn btn-secondary" id="downloadBtn" disabled style="width: 100%; display: none;">
+                    <a class="btn btn-secondary" id="downloadBtn" style="width: 100%; display: none; text-align: center; justify-content: center;">
                         ⇩ ファイルダウンロード ⇩
-                    </button>
+                    </a>
                 </div>
 
                 <div id="uploadPrompt" style="text-align: center; color: #64748b; padding: 40px 20px;">
@@ -634,39 +723,12 @@
         </div>
     </footer>
 
+    <!-- UPNGエンコーダー（簡易版） -->
     <script>
-        // gif.jsの透過処理を改善するパッチ
-        if (typeof GIF !== 'undefined') {
-            // GIFライブラリの透過処理を強化
-            const originalAddFrame = GIF.prototype.addFrame;
-            GIF.prototype.addFrame = function(image, options) {
-                options = options || {};
-                
-                // 透過処理を強制的に有効にする
-                if (this.options.transparent !== null || options.transparent) {
-                    // Canvasの場合、透過ピクセルを検出して透過色を設定
-                    if (image.tagName === 'CANVAS') {
-                        const ctx = image.getContext('2d');
-                        const imageData = ctx.getImageData(0, 0, image.width, image.height);
-                        const data = imageData.data;
-                        
-                        // 透過色として使用する色を見つける（完全黒）
-                        this.setTransparent = function(color) {
-                            this.transparent = color;
-                            return this;
-                        };
-                        
-                        // 透過色を黒（0x000000）に設定
-                        if (typeof this.transparent === 'undefined') {
-                            this.transparent = 0x000000;
-                        }
-                    }
-                }
-                
-                return originalAddFrame.call(this, image, options);
-            };
-        }
+        // 元のUPNG.jsを使用するため、ここは削除
+    </script>
 
+    <script>
         let currentImage = null;
         let animationCanvas = null;
         let animationContext = null;
@@ -699,8 +761,6 @@
         const colorCount = document.getElementById('colorCount');
         const frameRate = document.getElementById('frameRate');
         const qualityLevel = document.getElementById('qualityLevel');
-
-        // サイズ調整要素
         const outputWidth = document.getElementById('outputWidth');
         const outputHeight = document.getElementById('outputHeight');
         const aspectRatioBtn = document.getElementById('aspectRatioBtn');
@@ -882,6 +942,40 @@
             }
         }
 
+        // スライダー調整関数
+        function adjustSlider(sliderId, delta) {
+            const slider = document.getElementById(sliderId);
+            const currentValue = parseFloat(slider.value);
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            const step = parseFloat(slider.step);
+            
+            let newValue = currentValue + delta;
+            
+            // ステップに合わせて丸める
+            newValue = Math.round(newValue / step) * step;
+            
+            // 範囲内に収める
+            newValue = Math.max(min, Math.min(max, newValue));
+            
+            // 小数点以下の精度を調整
+            if (step < 1) {
+                const decimals = step.toString().split('.')[1]?.length || 0;
+                newValue = parseFloat(newValue.toFixed(decimals));
+            }
+            
+            slider.value = newValue;
+            
+            // inputイベントを手動で発火させる
+            const event = new Event('input', { bubbles: true });
+            slider.dispatchEvent(event);
+        }
+
+        function handleSizeChange() {
+            updateCurrentSizeDisplay();
+            updatePreview();
+        }
+
         function updateCurrentSizeDisplay() {
             const w = outputWidth.value;
             const h = outputHeight.value;
@@ -910,7 +1004,7 @@
             let startTime = performance.now();
             
             function animate() {
-                const elapsed = (performance.now() - startTime) / 1000;
+                const elapsed = (performance.now() - startTime) / 1000; // 秒
                 const speed = parseFloat(animationSpeed.value);
                 const delay = parseFloat(animationDelay.value);
                 const progress = ((elapsed + delay) / speed) % 1;
@@ -1138,7 +1232,6 @@
                 sizeControls.style.display = 'none';
                 uploadPrompt.style.display = 'block';
                 generateBtn.disabled = true;
-                downloadBtn.disabled = true;
                 downloadBtn.style.display = 'none';
                 progressBar.style.display = 'none';
                 progressFill.style.width = '0%';
@@ -1172,7 +1265,6 @@
                 setTimeout(() => {
                     progressBar.style.display = 'none';
                     progressFill.style.width = '0%';
-                    downloadBtn.disabled = false;
                     downloadBtn.style.display = 'block';
                     generateBtn.disabled = false;
                     
@@ -1415,7 +1507,6 @@
                     ctx.save();
                     
                     const frameProgress = i / frameCount;
-                    
                     applyTransform(ctx, frameProgress, outputW, outputH, scale);
                     ctx.drawImage(currentImage, 0, 0, outputW, outputH);
                     ctx.restore();
@@ -1433,8 +1524,6 @@
                 
                 // APNG形式のバイナリデータを生成
                 const delays = new Array(frameCount).fill(Math.round(1000 / fps));
-                
-                // APNGは無限ループ固定（0 = 無限ループ）
                 const apngData = UPNG.encode(frameBuffers, outputW, outputH, 0, delays);
                 
                 if (apngData.byteLength > 5 * 1024 * 1024) {
@@ -1457,23 +1546,16 @@
             }
 
             const format = outputFormat.value;
-            const link = document.createElement('a');
-            
-            // 元のファイル名から拡張子を除去
             const originalFileName = document.getElementById('fileName').textContent;
             const nameWithoutExt = originalFileName.replace(/\.[^/.]+$/, "");
             
             if (format === 'gif') {
-                link.download = `${nameWithoutExt}_ANIMATOR.gif`;
-                link.href = animationFrames[0];
-                alert(`📥 GIFファイルがダウンロードされました！`);
+                downloadBtn.download = `${nameWithoutExt}_ANIMATOR.gif`;
+                downloadBtn.href = animationFrames[0];
             } else {
-                link.download = `${nameWithoutExt}_ANIMATOR.png`;
-                link.href = animationFrames[0];
-                alert(`📥 アニメーションPNGファイルがダウンロードされました！\n※一部のブラウザではアニメーションが再生されない場合があります。`);
+                downloadBtn.download = `${nameWithoutExt}_ANIMATOR.png`;
+                downloadBtn.href = animationFrames[0];
             }
-            
-            link.click();
         }
     </script>
 </body>
